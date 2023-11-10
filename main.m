@@ -43,7 +43,7 @@ ax = pcshow(ptCld);
 
 % This code block shows a cuboid shape with pink color, opacity of 0.15 and line width of 1 around the lidar bounding boxes on the given axes. The axes are then zoomed in by a factor of 8.
 
-showShape("Cuboid",lidarBboxes,Color="pink",Parent=ax,Opacity=0.15,LineWidth=1);
+showShape("Cuboid",lidarBboxes,Color="green",Parent=ax,Opacity=0.15,LineWidth=1);
 zoom(ax,8)
 
 % This code extracts camera data from a data log and folder for a specific camera index.
