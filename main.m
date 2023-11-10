@@ -43,7 +43,7 @@ ax = pcshow(ptCld);
 
 % This code block shows a cuboid shape with pink color, opacity of 0.15 and line width of 1 around the lidar bounding boxes on the given axes. The axes are then zoomed in by a factor of 8.
 
-showShape("Cuboid",lidarBboxes,Color="green",Parent=ax,Opacity=0.15,LineWidth=1);
+showShape("Cuboid",lidarBboxes,Color="magenta",Parent=ax,Opacity=0.15,LineWidth=1);
 zoom(ax,8)
 
 % This code extracts camera data from a data log and folder for a specific camera index.
@@ -85,6 +85,8 @@ tracker = trackerJPDA( ...
     ConfirmationThreshold=0.99,...
     DeletionThreshold=0.2,...
     DeathRate=0.5);
+
+
 
 % Setup the visualization
 % This code initializes a helperLidarCameraFusionDisplay object and assigns it to the variable 'display'.
@@ -150,8 +152,26 @@ for frame = 1:numFrames
     detections = [lidarDetections;cameraDetections];
    
     % Run the tracker
-    tracks = tracker(detections, time);
+    [confirmed,tentative,tracks,info] = tracker(detections, time);
 
     % Visualize the results
-     display(dataFolder,dataLog, egoPose, lidarDetections, cameraDetections, tracks);
+    display(dataFolder,dataLog, egoPose, lidarDetections, cameraDetections, tracks);
+
+   
+    for i = 1:1:length(info.Clusters)
+        disp('---- Cluster number: ')
+        disp(i)
+        disp('--------- Info Cluster: ')
+        disp(info.Clusters{i})
+        disp('--------- Cluster, Validation matrix of the cluster: ')
+        disp(info.Clusters{i}.ValidationMatrix)
+        disp('--------- Cluster, Individual association likelihoods based on kinematic information: ')
+        disp(info.Clusters{i}.Likelihood)
+        disp('--------- Cluster, Matrix of marginal posterior joint association probabilities: ')
+        disp(info.Clusters{i}.MarginalProbabilities)
+        
+    end
+
+    disp('-----------------------------')
+    
 end
